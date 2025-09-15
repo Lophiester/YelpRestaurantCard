@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5638480C2E788BC800C892AE /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5638480B2E788BC800C892AE /* SDWebImageSwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		563845D82E7851E900C892AE /* YelpRestaurantCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YelpRestaurantCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5638480C2E788BC800C892AE /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = YelpRestaurantCard;
 			packageProductDependencies = (
+				5638480B2E788BC800C892AE /* SDWebImageSwiftUI */,
 			);
 			productName = YelpRestaurantCard;
 			productReference = 563845D82E7851E900C892AE /* YelpRestaurantCard.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 563845CF2E7851E900C892AE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5638480A2E788BC800C892AE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 563845D92E7851E900C892AE /* Products */;
 			projectDirPath = "";
@@ -360,6 +369,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5638480A2E788BC800C892AE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5638480B2E788BC800C892AE /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5638480A2E788BC800C892AE /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 563845D02E7851E900C892AE /* Project object */;
 }

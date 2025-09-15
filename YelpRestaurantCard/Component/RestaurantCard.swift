@@ -6,36 +6,41 @@
 //
 
 import SwiftUI
+import SDWebImage
+import SDWebImageSwiftUI
 
 struct RestaurantCard: View {
+    var restaurant: Business
+    
     var body: some View {
         
         VStack(alignment: .leading){
-            Image("test")
-                .resizable()
-                .scaledToFit()
-                .clipShape(.rect(cornerRadius: 10))
-                .frame(width: 250, height: 100)
-                .clipped()
-                .padding()
-                .overlay( Image(systemName: "heart.fill")
-                    .foregroundStyle(.red)
-                    .padding(10),
-                          alignment: .topTrailing
-                )
+            WebImage(url: URL(string: restaurant.imageUrl ?? "No Image")) {
+                $0.resizable()
+                    .scaledToFit()
+                    .clipShape(.rect(cornerRadius: 10))
+                    .frame(width: 250, height: 100)
+                    .clipped()
+                    .padding()
+            } placeholder: {
+                ProgressView()
+                    .frame(height: 50)
+                    .frame(width: 250, height: 100)
+            }
+
             VStack( alignment: .leading, spacing: 5){
-                Text("Cafe ola")
+                Text(restaurant.name ?? "")
                     .font(.title2)
                     .bold()
                 HStack{
-                    
-                    ForEach(0..<5) {
-                        index in Image(systemName:"star.fill")
+                    let starCount = Int((restaurant.rating ?? 0).rounded())
+                    ForEach(0..<starCount, id: \.self) {
+                        _ in Image(systemName:"star.fill")
                             .foregroundStyle(.yellow)
                             .font(.caption)
                     }
                 }
-                Text("100 meters away")
+                Text(Texthelper.distanceAwayText(meters: restaurant.distance ?? 0))
                     .foregroundStyle(.gray)
                     .font(.caption2)
                     .padding(.top, 5)
@@ -50,5 +55,14 @@ struct RestaurantCard: View {
 }
 
 #Preview {
-    RestaurantCard()
+    RestaurantCard(
+        restaurant: Business(
+            id: "1",
+            name: "Cafe Ola",
+            imageUrl: nil,
+            rating: 4.5,
+            distance: 100,
+            categories: []
+        )
+    )
 }
