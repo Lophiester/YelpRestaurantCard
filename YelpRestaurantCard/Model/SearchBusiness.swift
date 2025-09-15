@@ -17,7 +17,7 @@ struct SearchBusiness: Codable{
 
 struct Business: Codable, Identifiable {
     
-    var id: String?
+    let id: String
     var name: String?
     var imageUrl: String?
     var rating: Double?
