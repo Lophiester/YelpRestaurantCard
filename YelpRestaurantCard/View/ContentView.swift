@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var businesses = [Business]()
     
     var callApi =  DataService()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ScrollView {
+            LazyVStack {
+                ForEach(businesses) { b in
+                    Text(b.name ?? "Nil")
+                }
+            }
         }
-        .padding()
         .onAppear {
             Task{
                 do{
-                   try await callApi.fetchRestaurants()
+                    businesses = try await callApi.fetchRestaurants()
+                    print(businesses)
                 }
                 catch{
                     print(error.localizedDescription)
