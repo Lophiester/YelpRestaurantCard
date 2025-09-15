@@ -59,7 +59,7 @@ struct RestaurantCard: View {
         restaurant: Business(
             id: "1",
             name: "Cafe Ola",
-            imageUrl: nil,
+            imageUrl: "nil",
             rating: 4.5,
             distance: 100,
             categories: []
