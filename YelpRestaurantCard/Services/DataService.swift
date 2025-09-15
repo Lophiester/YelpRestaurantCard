@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct DataService{
     
@@ -16,10 +17,21 @@ struct DataService{
     }
     
     
-    func fetchRestaurants() async throws -> [Business]{
+    func fetchRestaurants(userLocation: CLLocationCoordinate2D?) async throws -> [Business]{
         
         guard let apiKey else {throw URLError(.userAuthenticationRequired)}
-        let urlString = "https://api.yelp.com/v3/businesses/search?latitude=37.785834&longitude=-122.406417&term=restaurants&limit=10"
+        
+        // Default lat long
+        var lat = 37.785834
+        var long = -122.406417
+        
+        // User location
+        if let userLocation = userLocation{
+            lat = userLocation.latitude
+            long = userLocation.longitude
+        }
+        
+        let urlString = "https://api.yelp.com/v3/businesses/search?latitude=\(lat)&longitude=\(long)&term=restaurants&limit=7"
         
         guard let url = URL(string: urlString) else {throw URLError(.badURL)}
         

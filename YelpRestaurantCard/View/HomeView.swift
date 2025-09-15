@@ -9,23 +9,21 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var currentIndex: Int = 0
-    @State private var restaurant = [Business]()
-    @State private var offsetX: CGFloat = 0
+    @State var viewModel = HomeViewModel()
     
-    var service = DataService()
     
     var body: some View {
         VStack{
             Spacer()
             
             ZStack {
-                ForEach(currentIndex..<min(currentIndex + 3, restaurant.count), id: \.self) { index in
-                    RestaurantCard(restaurant: restaurant[index])
-                        .offset(y: CGFloat(index - currentIndex) * 10)
-                        .offset(x: index == currentIndex ? offsetX : 0)
-                        .animation(.easeInOut(duration: 0.3), value: currentIndex)
-                        .zIndex(Double(restaurant.count - index))
+                ForEach(Array(viewModel.restaurant.dropFirst(viewModel.currentIndex))) { restaurant in
+                    let index = viewModel.restaurant.firstIndex(where: { $0.id == restaurant.id }) ?? 0
+                    RestaurantCard(restaurant: restaurant)
+                        .offset(y: CGFloat(index - viewModel.currentIndex) * 10) // vertical stack effect
+                        .offset(x: index == viewModel.currentIndex ? viewModel.offsetX : 0) // horizontal animation for top card
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.currentIndex)
+                        .zIndex(Double(viewModel.restaurant.count - index)) // ensures top card is above
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -34,36 +32,37 @@ struct HomeView: View {
             
             HStack{
                 ActionButton(action: {
-                    if currentIndex > 0 {
-                        offsetX = -UIScreen.main.bounds.width
-                        currentIndex -= 1
+                    if viewModel.currentIndex > 0 {
+                        viewModel.offsetX = -UIScreen.main.bounds.width
+                        viewModel.currentIndex -= 1
                         withAnimation(.easeInOut(duration: 0.3)) {
-                            offsetX = 0
+                            viewModel.offsetX = 0
                         }
                     }
-                }, buttonDescription: "Previous", disabled: currentIndex == 0)
+                }, buttonDescription: "Previous", disabled: viewModel.currentIndex == 0)
                 
                 Spacer()
                 
                 ActionButton(action: {
-                    if currentIndex < restaurant.count - 1 {
+                    if viewModel.currentIndex < viewModel.restaurant.count - 1 {
                         withAnimation(.easeInOut(duration: 0.5)) {
-                            offsetX = -UIScreen.main.bounds.width
+                            viewModel.offsetX = -UIScreen.main.bounds.width
                           
                         }
-                        currentIndex += 1
+                        viewModel.currentIndex += 1
                     }
-                }, buttonDescription: "Next", disabled: currentIndex == restaurant.count - 1)
+                }, buttonDescription: "Next", disabled: viewModel.currentIndex == viewModel.restaurant.count - 1)
             }
             .padding(.horizontal,30)
         }
         .padding()
+        .onAppear {
+      
+                viewModel.getUserLocation()
+           
+        }
         .task {
-            do {
-                restaurant = try await service.fetchRestaurants()
-            } catch {
-                print("Error fetching restaurants: \(error)")
-            }
+            viewModel.getRestaurantData()
         }
     }
 }
