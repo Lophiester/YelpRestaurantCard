@@ -3,6 +3,21 @@
 A simple SwiftUI app to show nearby restaurants using the Yelp API. Built for learning and demonstration.
 
 ---
+## Setup
+
+⚠️ **Important:** This project does not include the Yelp API key for security reasons.  
+To run the app locally, follow these steps to add your API key:
+
+1. In Xcode, go to **File → New → File...**  
+2. In the template search, type **Configuration Settings File** and select it.  
+3. Save the new file as `Config.xcconfig` in your project.  
+4. Open `Config.xcconfig` and add the following line:
+
+   KEY_API = >>>YOUR_API_KEY<<<
+
+⚠️ Make sure to keep `KEY_API =` exactly like this, as this is the **build configuration variable name** that the project uses to access your API key. 
+
+After this, the app will be able to access the Yelp API using your key.
 
 ## Features
 
