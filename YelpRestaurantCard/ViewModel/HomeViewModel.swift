@@ -19,7 +19,7 @@ class HomeViewModel: NSObject, CLLocationManagerDelegate{
     var restaurant = [Business]()
     var currentIndex: Int = 0
     var service = DataService()
-    var offsetX: CGFloat = 0
+
     
     override init() {
         super.init( )

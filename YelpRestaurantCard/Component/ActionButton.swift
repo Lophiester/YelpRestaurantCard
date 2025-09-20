@@ -16,8 +16,7 @@ struct ActionButton: View {
         Button(buttonDescription) {
             action()
         }
-
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(.glassProminent)
         .disabled(disabled)
     }
 }

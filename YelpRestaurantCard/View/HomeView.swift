@@ -17,49 +17,49 @@ struct HomeView: View {
             Spacer()
             
             ZStack {
-                ForEach(Array(viewModel.restaurant.dropFirst(viewModel.currentIndex))) { restaurant in
-                    let index = viewModel.restaurant.firstIndex(where: { $0.id == restaurant.id }) ?? 0
-                    RestaurantCard(restaurant: restaurant)
-                        .offset(y: CGFloat(index - viewModel.currentIndex) * 10) // vertical stack effect
-                        .offset(x: index == viewModel.currentIndex ? viewModel.offsetX : 0) // horizontal animation for top card
-                        .animation(.easeInOut(duration: 0.3), value: viewModel.currentIndex)
-                        .zIndex(Double(viewModel.restaurant.count - index)) // ensures top card is above
+                
+                if viewModel.currentIndex >= viewModel.restaurant.count{
+                    
+                    Text("Nothing to show")
+                    
+                }
+                else{
+                    ForEach(viewModel.restaurant.indices, id: \.self){
+                        index in
+                        let restaurant = viewModel.restaurant[index]
+                        
+                        RestaurantCard(restaurant: restaurant)
+                        
+                            .scaleEffect(max(0, 1.0 - (CGFloat(index - viewModel.currentIndex) * 0.10)))
+                            .offset(y: CGFloat(index - viewModel.currentIndex) * 20)
+                            .offset(x: index < viewModel.currentIndex ? -500 : 0)
+                            .zIndex(-Double(index))
+                    }
+                    
+                    
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
             Spacer()
-            
             HStack{
                 ActionButton(action: {
-                    if viewModel.currentIndex > 0 {
-                        viewModel.offsetX = -UIScreen.main.bounds.width
+                    withAnimation(.easeInOut(duration: 0.5)) {
                         viewModel.currentIndex -= 1
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            viewModel.offsetX = 0
-                        }
                     }
-                }, buttonDescription: "Previous", disabled: viewModel.currentIndex == 0)
-                
+                }, buttonDescription: "Back", disabled: viewModel.currentIndex > 0 ? false : true)
                 Spacer()
-                
                 ActionButton(action: {
-                    if viewModel.currentIndex < viewModel.restaurant.count - 1 {
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            viewModel.offsetX = -UIScreen.main.bounds.width
-                          
-                        }
+                    withAnimation(.easeInOut(duration: 0.5)){
                         viewModel.currentIndex += 1
                     }
-                }, buttonDescription: "Next", disabled: viewModel.currentIndex == viewModel.restaurant.count - 1)
+                    
+                }, buttonDescription: "Next", disabled: viewModel.currentIndex > viewModel.restaurant.count ? true : false)
             }
-            .padding(.horizontal,30)
+            .padding(.horizontal)
+            
         }
         .padding()
         .onAppear {
-      
-                viewModel.getUserLocation()
-           
+            viewModel.getUserLocation()
         }
         .task {
             viewModel.getRestaurantData()
