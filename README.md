@@ -37,10 +37,8 @@ After this, the app will be able to access the Yelp API using your key.
 4. Displays the restaurant information in a card stack UI with navigation buttons.
 
 ## Requirements
+- iOS 26 or later
 
-- Xcode 14.0 or later
-- iOS 16.0 or later
-- Swift 5.7 or later
 
 ## Tech Used
 
